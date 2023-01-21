@@ -1,0 +1,11 @@
+from deep_emotion_recognition import DeepEmotionRecognizer
+print("DeepEmotionRecognizer")
+rec = DeepEmotionRecognizer(emotions=["sad", "happy", "neutral", "angry", "fear"], balance=False, verbose=1)
+print("loading data")
+rec.load_data()
+print("creating model...")
+rec.create_model()
+print("summary..")
+rec.summary()
+print("training...")
+rec.train()

@@ -105,6 +105,8 @@ class DeepEmotionRecognizer(EmotionRecognizer):
         # boolean attributes
         self.model_created = False
 
+        print("done")
+
     def _update_model_name(self):
         """
         Generates a unique model name based on parameters passed and put it on `self.model_name`.
@@ -391,7 +393,8 @@ class DeepEmotionRecognizer(EmotionRecognizer):
     def determine_best_model(self):
         # TODO
         # raise TypeError("This method isn't supported yet for deep nn")
-        pass
+        # pass
+        print("not yet implemented")
 
 
 if __name__ == "__main__":

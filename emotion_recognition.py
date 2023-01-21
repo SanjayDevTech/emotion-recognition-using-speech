@@ -72,14 +72,14 @@ class EmotionRecognizer:
         # set metadata path file names
         self._set_metadata_filenames()
         # write csv's anyway
-        self.write_csv()
+        # self.write_csv()
 
         # boolean attributes
         self.data_loaded = False
         self.model_trained = False
 
         # model
-        if not model:
+        if model is None:
             self.determine_best_model()
         else:
             self.model = model
@@ -170,6 +170,9 @@ class EmotionRecognizer:
             self.model_trained = True
             if verbose:
                 print("[+] Model trained")
+
+    def summary():
+        self.model.summary()
 
     def predict(self, audio_path):
         """
@@ -282,11 +285,11 @@ class EmotionRecognizer:
 
     def train_fbeta_score(self, beta):
         y_pred = self.model.predict(self.X_train)
-        return fbeta_score(self.y_train, y_pred, beta, average='micro')
+        return fbeta_score(self.y_train, y_pred,beta= beta, average='micro')
 
     def test_fbeta_score(self, beta):
         y_pred = self.model.predict(self.X_test)
-        return fbeta_score(self.y_test, y_pred, beta, average='micro')
+        return fbeta_score(self.y_test, y_pred,beta= beta, average='micro')
 
     def confusion_matrix(self, percentage=True, labeled=True):
         """
@@ -382,21 +385,14 @@ def plot_histograms(classifiers=True, beta=0.5, n_classes=3, verbose=1):
     final_result = {}
     for estimator, params, cv_score in estimators:
         final_result[estimator.__class__.__name__] = []
+        sample_sizes = [0.01, 0.1, 1]
         for i in range(3):
             result = {}
             # initialize the class
             detector = EmotionRecognizer(estimator, verbose=0)
             # load the data
             detector.load_data()
-            if i == 0:
-                # first get 1% of sample data
-                sample_size = 0.01
-            elif i == 1:
-                # second get 10% of sample data
-                sample_size = 0.1
-            elif i == 2:
-                # last get all the data
-                sample_size = 1
+            sample_size = sample_sizes[i]
             # calculate number of training and testing samples
             n_train_samples = int(len(detector.X_train) * sample_size)
             n_test_samples = int(len(detector.X_test) * sample_size)
